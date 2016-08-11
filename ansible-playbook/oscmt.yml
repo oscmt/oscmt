@@ -3,6 +3,17 @@
     venv: /home/damait06/venvs/oscmt_env
 
   tasks:
+  - name: Copy OSCMT to the remote server
+    copy:
+      src: ../../
+      dest: /home/damait06/oscmt/
+
+  - name: Make manage.py <s>great</s> executable again
+    copy:
+      src: ../oscmt/manage.py
+      dest: /home/damait06/oscmt/oscmt/manage.py
+      mode: 0700
+
   - name: Set up a virtual environment with pip
     pip:
       requirements: /home/damait06/oscmt/requirements.txt
