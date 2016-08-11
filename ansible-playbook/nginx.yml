@@ -1,0 +1,8 @@
+- hosts: oscmt
+  become: yes
+  become_method: sudo
+  - tasks:
+    - name: Ensure nginx is installed and the latest version
+      apt:
+        pkg: nginx
+        state: latest
