@@ -12,3 +12,8 @@
     apt:
       pkg: python3-pip
       state: latest
+
+  - name: Install virtualenv for pip
+    apt:
+      pkg: python3-virtualenv
+      state: latest
