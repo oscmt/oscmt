@@ -30,5 +30,4 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
 
     url(r'^', include(admin_site.urls)),
-    url(r'^casetool/', include('casetool.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
