@@ -1,0 +1,7 @@
+- hosts: oscmt
+  - tasks:
+    - name: Set up a virtual environment with pip
+      pip:
+        requirements: /home/damait06/oscmt/requirements.txt
+        virtualenv: /home/damait06/venvs/oscmt_env
+        virtualenv_python: python3.4
