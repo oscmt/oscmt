@@ -1,7 +1,17 @@
 - hosts: oscmt
-  - tasks:
-    - name: Set up a virtual environment with pip
-      pip:
-        requirements: /home/damait06/oscmt/requirements.txt
-        virtualenv: /home/damait06/venvs/oscmt_env
-        virtualenv_python: python3.4
+  vars:
+    venv: /home/damait06/venvs/oscmt_env
+
+  tasks:
+  - name: Set up a virtual environment with pip
+    pip:
+      requirements: /home/damait06/oscmt/requirements.txt
+      virtualenv: "{{ venv }}"
+      virtualenv_python: python3.4 # only in ansible 2.0++
+
+  - name: Migrate Django's database
+    django_manage:
+      app_path: /home/damait06/oscmt/oscmt/
+      apps: casetool
+      command: migrate
+      virtualenv: "{{ venv }}"
