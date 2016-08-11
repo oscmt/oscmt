@@ -26,6 +26,12 @@
     dbpassword: 5796f702e10ddb5bd73c70e530bb6b99 # make sure to change that.
 
   tasks:
+
+    - name: Ensure postgresql server is running
+      service:
+        name: postgresql
+        state: started
+
     - name: Ensure that database is created
       postgresql_db: 
         name: "{{ dbname }}"
