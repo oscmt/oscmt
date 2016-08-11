@@ -1,0 +1,14 @@
+---
+- hosts: oscmt
+  become: yes
+  become_method: sudo
+  - tasks:
+    - name: Ensure Python 3.4 is installed and the latest version
+      apt:
+        pkg: python3.4
+        state: latest
+
+    - name: Ensure python3-pip is installed and the latest version
+      apt:
+        pkg: python3-pip
+        state: latest
