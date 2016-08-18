@@ -1,4 +1,0 @@
-- include: postgres.yml
-- include: python.yml
-#- include: nginx.yml
-- include: oscmt.yml
