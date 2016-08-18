@@ -1,0 +1,12 @@
+---
+- name: Create Django user
+  user:
+    name: "{{ username }}"
+    groups: www-data
+    shell: '/bin/nologin'
+    state: present
+
+- name: Add authorized key
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', public_key) }}"

@@ -1,0 +1,4 @@
+- name: Configuring uwsgi
+  synchronize:
+    src: ../../../configs/etc/uwsgi
+    dest: /etc/

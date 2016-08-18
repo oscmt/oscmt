@@ -1,0 +1,16 @@
+---
+- name: Upgrade packages
+  apt:
+    upgrade: safe
+
+- name: Install curl, fail2ban, git, ufw
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+
+  with_items:
+    - curl
+    - fail2ban
+    - git
+    - ufw

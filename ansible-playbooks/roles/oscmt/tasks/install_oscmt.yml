@@ -1,0 +1,23 @@
+remote_user: django
+  vars:
+    venv: env/oscmt_env
+
+- name: Copy OSCMT to the remote server
+  synchronize:
+    src: ../../../oscmt
+    dest: oscmt/
+    rsync_opts:
+      - "--exclude: .git"
+
+- name: Set up a virtual environment with pip
+  pip:
+    requirements: oscmt/requirements.txt
+    virtualenv: "{{ venv }}"
+    virtualenv_python: python3.4 # only in ansible 2.0++
+
+- name: Migrate Django's database
+  django_manage:
+    app_path: oscmt/oscmt/
+    apps: casetool
+    command: migrate
+    virtualenv: "{{ venv }}"

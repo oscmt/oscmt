@@ -27,6 +27,6 @@
   lineinfile:
     dest: /etc/nginx/nginx.conf
     regexp: "^user"
-    line: "user oscmt;"
+    line: "user {{ username }};"
     state: present
   notify: restart nginx

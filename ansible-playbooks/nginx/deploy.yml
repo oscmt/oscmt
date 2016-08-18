@@ -1,7 +1,0 @@
-- hosts: oscmt
-  become: yes
-  become_method: sudo
-
-  tasks:
-    - include: tasks/install_nginx.yml
-    - include: tasks/configure_nginx.yml

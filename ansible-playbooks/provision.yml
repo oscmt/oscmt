@@ -1,0 +1,36 @@
+---
+- hosts: oscmt
+  become: yes
+  become_method: sudo
+
+  vars:
+    username: django
+    public_key: ~/.ssh/oscmt.pub
+
+  roles:
+    - common
+    - ufw
+    - ssh
+    - user
+    - python
+    - nginx
+
+- hosts: oscmt
+  become: yes
+  become_user: postgres
+  become_method: sudo
+  
+  vars:
+    dbname: 'oscmt'
+    dbuser: 'oscmt_user'
+    dbpassword: '5796f702e10ddb5bd73c70e530bb6b99' # make sure to change that.
+  
+  roles:
+    - postgresql
+
+- hosts: oscmt
+  become: yes
+  become_method: sudo
+
+  roles:
+    - oscmt
