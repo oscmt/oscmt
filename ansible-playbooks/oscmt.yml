@@ -4,15 +4,9 @@
 
   tasks:
   - name: Copy OSCMT to the remote server
-    copy:
+    synchronize:
       src: ../../
       dest: /home/damait06/oscmt/
-
-  - name: Make manage.py <s>great</s> executable again
-    copy:
-      src: ../oscmt/manage.py
-      dest: /home/damait06/oscmt/oscmt/manage.py
-      mode: 0700
 
   - name: Set up a virtual environment with pip
     pip:
