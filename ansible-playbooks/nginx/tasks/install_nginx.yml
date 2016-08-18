@@ -1,0 +1,13 @@
+- name: Updating apt cache
+  apt:
+    update_cache: yes
+
+- name: Installing nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: Starting nginx
+  service:
+    name: nginx
+    state: started

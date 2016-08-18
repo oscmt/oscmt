@@ -1,0 +1,32 @@
+- name: Check nginx configs exist
+  stat: path=/etc/nginx/.git
+  register: git_exists
+
+- name: Remove default nginx configs
+  file:
+    path: /etc/nginx
+    state: absent
+  when: not git_exists.stat.exists
+
+- name: Clone nginx configs
+  git:
+    repo: https://github.com/dmaendlen/oscmt-nginx.git
+    dest: /etc/nginx
+    version: master
+    force: yes
+  when: not git_exists.stat.exists
+
+- name: Symlink default site
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: reload nginx
+
+- name: Set nginx user
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    regexp: "^user"
+    line: "user oscmt;"
+    state: present
+  notify: restart nginx
