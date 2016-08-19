@@ -22,3 +22,8 @@
   apt:
     pkg: libjpeg-dev
     state: latest
+
+- name: Install python2-pip for ansible's use
+  apt:
+    pkg: python-pip
+    state: latest

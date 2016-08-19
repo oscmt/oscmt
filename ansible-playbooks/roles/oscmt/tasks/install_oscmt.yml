@@ -1,23 +1,56 @@
-remote_user: django
-  vars:
-    venv: env/oscmt_env
+---
+- name: Ensure oscmt is absent
+  file:
+    path: "{{ userpath }}/oscmt"
+    state: absent
+
+- name: Ensure "{{ remoteuser }}" is in "{{ groupname }}"
+  user:
+    name: "{{ remoteuser }}"
+    groups: "{{ groupname }},sudo,{{ remoteuser }}"
+
+- name: Ensure "{{ groupname }}" has write access to "{{ userpath }}"
+  file:
+    path: "{{ userpath }}"
+    state: directory
+    mode: 0775
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Copy OSCMT to the remote server
+  become: no
   synchronize:
     src: ../../../oscmt
-    dest: oscmt/
+    dest: "{{ userpath }}"
     rsync_opts:
-      - "--exclude: .git"
+      - "--exclude=ansible-playbooks"
+      - "--exclude=.git"
+      - "--exclude=.gitignore"
+      - "--exclude=README.md"
 
+- name: Create a directory for the virtual env
+  file:
+    path: "{{ venv }}"
+    state: directory
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 - name: Set up a virtual environment with pip
   pip:
-    requirements: oscmt/requirements.txt
+    requirements: "{{ userpath }}/oscmt/requirements.txt"
     virtualenv: "{{ venv }}"
     virtualenv_python: python3.4 # only in ansible 2.0++
 
 - name: Migrate Django's database
   django_manage:
-    app_path: oscmt/oscmt/
+    app_path: "{{ userpath }}/oscmt/oscmt/"
     apps: casetool
     command: migrate
     virtualenv: "{{ venv }}"
+
+- name: Change ownership
+  file:
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    recurse: yes
+    path: "{{ userpath }}"

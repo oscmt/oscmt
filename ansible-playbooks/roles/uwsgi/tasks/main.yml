@@ -1,4 +1,16 @@
-- name: Configuring uwsgi
-  synchronize:
-    src: ../../../configs/etc/uwsgi
-    dest: /etc/
+---
+- name: Prepare for logs
+  file:
+    path: /var/log/uwsgi
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    mode: 0755
+
+- name: Starting uwsgi
+  become: yes
+  become_user: "{{ username }}"
+  shell:
+    "{{ venv }}/bin/uwsgi --ini {{ userpath }}/oscmt/oscmt/oscmt/uwsgi/oscmt.ini"
+  args:
+    executable: /bin/bash

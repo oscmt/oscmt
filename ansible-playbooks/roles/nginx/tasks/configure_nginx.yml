@@ -1,5 +1,6 @@
 - name: Check nginx configs exist
-  stat: path=/etc/nginx/.git
+  stat:
+    path: /etc/nginx/.git
   register: git_exists
 
 - name: Remove default nginx configs

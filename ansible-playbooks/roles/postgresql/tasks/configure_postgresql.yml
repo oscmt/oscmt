@@ -1,6 +1,8 @@
 - name: Ensure that database is created
   postgresql_db: 
     name: "{{ dbname }}"
+  become: yes
+  become_user: postgres
 
 - name: Ensure user has access to database
   postgresql_user:
@@ -8,11 +10,15 @@
     name: "{{ dbuser }}"
     password: "{{ dbpassword }}"
     priv: ALL
+  become: yes
+  become_user: postgres
 
 - name: Ensure user does not have unnecessary privilege
   postgresql_user:
     name: "{{ dbuser }}"
     role_attr_flags: NOSUPERUSER,NOCREATEDB # for tests: NOSUPERUSER only.
+  become: yes
+  become_user: postgres
 
 - name: Ensure no other user can access the database
   postgresql_privs:
@@ -21,3 +27,5 @@
     type: database
     priv: ALL
     state: absent
+  become: yes
+  become_user: postgres
