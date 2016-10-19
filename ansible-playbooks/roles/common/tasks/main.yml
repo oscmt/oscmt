@@ -3,7 +3,7 @@
   apt:
     upgrade: safe
 
-- name: Install curl, fail2ban, git, ufw
+- name: Install curl, fail2ban, git, ntp, ufw
   apt:
     name: "{{ item }}"
     state: present
@@ -14,3 +14,4 @@
     - fail2ban
     - git
     - ufw
+    - ntp

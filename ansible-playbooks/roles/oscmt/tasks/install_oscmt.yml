@@ -4,16 +4,11 @@
     path: "{{ userpath }}/oscmt"
     state: absent
 
-- name: Ensure "{{ remoteuser }}" is in "{{ groupname }}"
-  user:
-    name: "{{ remoteuser }}"
-    groups: "{{ groupname }},sudo,{{ remoteuser }}"
-
-- name: Ensure "{{ groupname }}" has write access to "{{ userpath }}"
+- name: Ensure everybody has write access to "{{ userpath }}"
   file:
     path: "{{ userpath }}"
     state: directory
-    mode: 0775
+    mode: 0777
     owner: "{{ username }}"
     group: "{{ groupname }}"
 
@@ -27,6 +22,7 @@
       - "--exclude=.git"
       - "--exclude=.gitignore"
       - "--exclude=README.md"
+      - "--exclude=uwsgi/uwsgi"
 
 - name: Create a directory for the virtual env
   file:
@@ -35,6 +31,7 @@
     mode: 0755
     owner: "{{ username }}"
     group: "{{ groupname }}"
+
 - name: Set up a virtual environment with pip
   pip:
     requirements: "{{ userpath }}/oscmt/requirements.txt"
@@ -47,6 +44,14 @@
     apps: casetool
     command: migrate
     virtualenv: "{{ venv }}"
+
+- name: Ensure write access to "{{ userpath }}" is reduced to the owner
+  file:
+    path: "{{ userpath }}"
+    state: directory
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Change ownership
   file:

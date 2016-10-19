@@ -7,10 +7,44 @@
     group: "{{ groupname }}"
     mode: 0755
 
-- name: Starting uwsgi
-  become: yes
-  become_user: "{{ username }}"
-  shell:
-    "{{ venv }}/bin/uwsgi --ini {{ userpath }}/oscmt/oscmt/oscmt/uwsgi/oscmt.ini"
-  args:
-    executable: /bin/bash
+- name: Ensure uwsgi is installed
+  pip:
+    name: uwsgi
+
+- name: Create uwsgi-server config
+  copy:
+    src: ../../../oscmt/oscmt/uwsgi/etc/init/uwsgi.conf
+    dest: /etc/init/uwsgi.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create uwsgi-vassal directory
+  file:
+    path: /etc/uwsgi/vassals/
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Create uwsgi-vassal config
+  copy:
+    src: ../../../oscmt/oscmt/uwsgi/etc/uwsgi/vassals/oscmt.ini
+    dest: /etc/uwsgi/vassals/uwsgi.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start uwsgi service
+  service:
+    name: uwsgi
+    state: started
+    enabled: yes
+
+#- name: Starting uwsgi
+#  become: yes
+#  become_user: "{{ username }}"
+#  shell:
+#    "{{ venv }}/bin/uwsgi --ini {{ userpath }}/oscmt/oscmt/oscmt/uwsgi/oscmt.ini"
+#  args:
+#    executable: /bin/bash
