@@ -11,3 +11,9 @@
   service:
     name: nginx
     state: started
+
+- name: Ensure logging capabilities
+  file:
+    path: /var/log/nginx/oscmt.bifroe.st/logs/
+    state: directory
+    mode: 0755
