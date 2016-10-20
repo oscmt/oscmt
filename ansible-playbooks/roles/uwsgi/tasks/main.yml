@@ -1,50 +1,23 @@
 ---
-- name: Prepare for logs
-  file:
-    path: /var/log/uwsgi
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
-    mode: 0755
-
 - name: Ensure uwsgi is installed
-  pip:
-    name: uwsgi
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
 
-- name: Create uwsgi-server config
-  copy:
-    src: ../../../oscmt/oscmt/uwsgi/etc/init/uwsgi.conf
-    dest: /etc/init/uwsgi.conf
-    owner: root
-    group: root
-    mode: 0644
+  with_items:
+    - uwsgi-emperor
+    - uwsgi
+    - uwsgi-plugin-python3
 
-- name: Create uwsgi-vassal directory
+- name: Link uwsgi-ini into vassals directory
   file:
-    path: /etc/uwsgi/vassals/
-    state: directory
-    mode: 0755
-    owner: root
-    group: root
-
-- name: Create uwsgi-vassal config
-  copy:
-    src: ../../../oscmt/oscmt/uwsgi/etc/uwsgi/vassals/oscmt.ini
-    dest: /etc/uwsgi/vassals/uwsgi.conf
-    owner: root
-    group: root
-    mode: 0644
+    src: /var/www/oscmt/oscmt/uwsgi/oscmt.ini
+    dest: /etc/uwsgi-emperor/vassals/oscmt.ini
+    state: link
 
 - name: Start uwsgi service
   service:
     name: uwsgi
     state: started
     enabled: yes
-
-#- name: Starting uwsgi
-#  become: yes
-#  become_user: "{{ username }}"
-#  shell:
-#    "{{ venv }}/bin/uwsgi --ini {{ userpath }}/oscmt/oscmt/oscmt/uwsgi/oscmt.ini"
-#  args:
-#    executable: /bin/bash
