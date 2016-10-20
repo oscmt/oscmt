@@ -1,2 +1,0 @@
-PYTHONPATH=/var/www/env/oscmt_env/bin/
-MODULE=/var/www/oscmt/oscmt/oscmt/wsgi.py
