@@ -47,6 +47,12 @@
     command: migrate
     virtualenv: "{{ venv }}"
 
+- name: Collect Django's static files
+  django_manage:
+    app_path: "{{ userpath }}/oscmt/oscmt/"
+    command: collectstatic
+    virtualenv: "{{ venv }}"
+
 - name: Ensure write access to "{{ userpath }}" is reduced to the owner
   file:
     path: "{{ userpath }}"
