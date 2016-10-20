@@ -13,6 +13,11 @@
     pkg: python3-virtualenv
     state: latest
 
+- name: Install virtualenv for python3-virtualenv
+  apt:
+    pkg: virtualenv
+    state: latest
+
 - name: Install python3-dev for psycopg2
   apt:
     pkg: python3-dev
