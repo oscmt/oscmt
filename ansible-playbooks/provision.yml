@@ -9,6 +9,8 @@
     groupname: www-data
     userpath: /var/www
     public_key: ~/.ssh/oscmt.pub
+    keyfile: 'oscmt.bifroe.st.key' # ssl-cert keyfile
+    certfile: 'oscmt.bifroe.st.crt' # ssl-cert
     dbname: 'oscmt'
     dbuser: 'oscmt_user'
     dbpassword: '5796f702e10ddb5bd73c70e530bb6b99' # make sure to change that.
