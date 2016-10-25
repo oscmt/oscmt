@@ -7,13 +7,29 @@
     name: nginx
     state: latest
 
-- name: Starting nginx
-  service:
-    name: nginx
-    state: started
-
 - name: Ensure logging capabilities
   file:
     path: /var/log/nginx/oscmt.bifroe.st/logs/
     state: directory
     mode: 0755
+
+- name: Ensure cert-key is installed
+  copy:
+    src: ../certs/key.key
+    dest: "/etc/ssl/{{ keyfile }}"
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Ensure cert is installed
+  copy:
+    src: ../certs/cert.crt
+    dest: "/etc/ssl/{{ certfile }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Starting nginx
+  service:
+    name: nginx
+    state: started
