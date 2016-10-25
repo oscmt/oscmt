@@ -21,3 +21,9 @@
     name: uwsgi
     state: started
     enabled: yes
+
+- name: Reload nginx
+  service:
+    name: uwsgi
+    state: reloaded
+    enabled: yes
