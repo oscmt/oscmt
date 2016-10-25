@@ -42,7 +42,6 @@
 - name: Migrate Django's database
   django_manage:
     app_path: "{{ userpath }}/oscmt/oscmt/"
-    apps: casetool
     command: migrate
     virtualenv: "{{ venv }}"
 
