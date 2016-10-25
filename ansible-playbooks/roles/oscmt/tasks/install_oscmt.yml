@@ -37,8 +37,7 @@
   pip:
     requirements: "{{ userpath }}/oscmt/requirements.txt"
     virtualenv: "{{ venv }}"
-    virtualenv_command: python3-virtualenv
-    #virtualenv_python: python3 # only in ansible 2.0++
+    virtualenv_python: python3.4 # only in ansible 2.0++
 
 - name: Migrate Django's database
   django_manage:
