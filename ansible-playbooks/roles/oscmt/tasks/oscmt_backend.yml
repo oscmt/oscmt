@@ -1,0 +1,14 @@
+---
+- name: Ensure the vmpool-directory is present
+  file:
+    dest: /vmpool/
+    state: directory
+    mode: 0755
+
+- name: Copy the vmgenerator.sh file into the vmpool-directory
+  copy:
+    src: ../vmpool/vm_generator.sh
+    dest: /vmpool/vm_generator.sh
+    owner: root
+    group: root
+    mode: 0755
