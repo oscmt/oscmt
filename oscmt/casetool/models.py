@@ -61,8 +61,8 @@ class Contract(models.Model):
     client = models.ForeignKey(Client, on_delete = models.CASCADE)
     start = models.DateField()
     end = models.DateField()
-    cost_limit = models.DecimalField(max_digits = 15, decimal_places = 2, blank = True)
-    time_limit = models.PositiveIntegerField(blank = True)
+    cost_limit = models.DecimalField(max_digits = 15, decimal_places = 2, blank = True, null = True)
+    time_limit = models.PositiveIntegerField(blank = True, null = True)
 
     # save the nda to the generated path
     nda = models.FileField(upload_to = nda_path,
