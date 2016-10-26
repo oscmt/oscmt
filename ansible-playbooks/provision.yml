@@ -15,8 +15,6 @@
     certfile: 'oscmt.bifroe.st.crt' # ssl-cert
     dbname: 'oscmt'
     dbuser: 'oscmt_user'
-    dbpassword: 'random_string' # make sure to change that.
-    secret_key: 'random_string' # make sure to change that.
     venv: "{{ userpath }}/env/oscmt_env"
   
 
