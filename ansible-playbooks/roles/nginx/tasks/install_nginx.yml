@@ -9,7 +9,7 @@
 
 - name: Ensure logging capabilities
   file:
-    path: /var/log/nginx/oscmt.bifroe.st/logs/
+    path: "/var/log/nginx/{{ fqdn }}/logs/"
     state: directory
     mode: 0755
 

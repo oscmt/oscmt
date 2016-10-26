@@ -20,13 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = 'SECRETKEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # which hosts are allowed to access oscmt
-ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
+ALLOWED_HOSTS = ['ALLOWEDHOSTS']
 
 # Application definition
 
@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'oscmt',
         'USER': 'oscmt_user',
-        'PASSWORD': os.environ['DB_PWD']
+        'PASSWORD': 'DB_PWD',
         'HOST': 'localhost',
         'PORT': '5432',
     }

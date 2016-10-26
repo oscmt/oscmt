@@ -24,6 +24,12 @@
     state: link
   notify: reload nginx
 
+- name: Replace placeholder with FQDN in default site
+  replace:
+    dest: /etc/nginx/sites-available/default
+    regexp: 'FQDN'
+    replace: "{{ fqdn }}"
+
 - name: Set nginx user
   lineinfile:
     dest: /etc/nginx/nginx.conf

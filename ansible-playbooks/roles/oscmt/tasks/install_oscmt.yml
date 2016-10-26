@@ -23,6 +23,25 @@
       - "--exclude=.gitignore"
       - "--exclude=README.md"
       - "--exclude=uwsgi/uwsgi"
+      - "--exclude=certs/"
+
+- name: Replace placeholder with allowed hosts in settings.py
+  replace:
+    dest: /var/www/oscmt/oscmt/oscmt/settings.py
+    regexp: 'ALLOWEDHOSTS'
+    replace: "{{ allowed_hosts }}"
+
+- name: Replace placeholder with db password in settings.py
+  replace:
+    dest: /var/www/oscmt/oscmt/oscmt/settings.py
+    regexp: 'DB_PWD'
+    replace: "{{ dbpassword }}"
+
+- name: Replace placeholder with secret key in settings.py
+  replace:
+    dest: /var/www/oscmt/oscmt/oscmt/settings.py
+    regexp: 'SECRETKEY'
+    replace: "{{ secret_key }}"
 
 - name: Create a directory for the virtual env
   file:
@@ -65,3 +84,4 @@
     group: "{{ groupname }}"
     recurse: yes
     path: "{{ userpath }}"
+
