@@ -31,6 +31,10 @@ If you want to install the software by hand, you will need:
 * a web-server, e. g. NGINX
 
 ### Deployment
+
+If you don't use the ansible-playbook I expect that you know what you're doing.
+Please connect OSCMT to your wsgi-server and let it be served by a webserver.
+
 Using the ansible-playbook:
 
 ```bash
@@ -66,13 +70,18 @@ source /var/www/env/oscmt_env/bin/activate
 python /var/www/oscmt/oscmt/manage.py createsuperuser
 ```
 
-Tell the manage.py script everything it needs to know, afterwards you should be able to navigate to fqdn.tld and log in.
+Tell the manage.py script everything it needs to know, afterwards you should be
+able to navigate to fqdn.tld and log in.
 
-After logging in as the superuser (henceforth "admin"), you can use OSCMT as a single user. Since this is normally a bad idea, you probably want to create groups and users next.
+After logging in as the superuser (henceforth "admin"), you can use OSCMT as a
+single user. Since this is normally a bad idea, you probably want to create
+groups and users next.
 
-Navigate to the /admin/ page next, here you can create groups and users to your liking, as well as managing permissions for said groups and users.
+Navigate to the /admin/ page next, here you can create groups and users to your
+liking, as well as managing permissions for said groups and users.
 
-When you're done with the admin account, log out and log back in as a regular user and start documenting your cases.
+When you're done with the admin account, log out and log back in as a regular
+user and start documenting your cases.
 
 ## Call for Participation
 If you have an improvement for the software please throw me a pull request.
