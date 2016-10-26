@@ -55,7 +55,8 @@ class Contract(models.Model):
                 raise ValidationError('Invalid file type')
 
     def nda_path(instance, filename):
-        date_string = datetime.date.today().strftime('%Y/%m/%d')
+        from datetime import date
+        date_string = date.today().strftime('%Y/%m/%d')
         return '/'.join([date_string, instance.client.name, 'nda', 'nda.pdf'])
 
     client = models.ForeignKey(Client, on_delete = models.CASCADE)
@@ -90,7 +91,8 @@ class Documentation(models.Model):
                 raise ValidationError('Invalid file type')
 
     def doc_path(instance, filename):
-        date_string = datetime.date.today().strftime('%Y/%m/%d')
+        from datetime import date
+        date_string = date.today().strftime('%Y/%m/%d')
         return '/'.join([date_string, instance.contract.client.name, 'doc', 'doc.pdf'])
 
     # declare the possible states of a Documentation
