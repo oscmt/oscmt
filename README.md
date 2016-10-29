@@ -11,7 +11,7 @@ create a software solution with the Django framework in Python 3.4. This
 repository is the result.
 
 ## Content
-This repository contains the clean version of the software, ready for your use.
+This repository contains the clean version of the software, ready to use.
 
 ## Installation
 ### Dependencies
@@ -37,12 +37,49 @@ Please connect OSCMT to your wsgi-server and let it be served by a webserver.
 
 Using the ansible-playbook:
 
+### Preparation
+```bash
+# Make sure your ansible-hosts-file contains the appropriate IP address or fqdn:
+
+# become root
+sudo -s
+
+# append relevant information
+cat << EOF >> /etc/ansible/hosts
+[oscmt]
+YOUR_IP_OR_FQDN_HERE ansible_ssh_private_key_file='/path/to/your/ssh/keyfile'
+EOF
+
+# exit root
+exit
+
+# set the correct remote user in provision.yml
+sed -E -i 's/^(\s+)remoteuser:.*/\1remoteuser: YOUR_REMOTE_USER_HERE/' ansible-playbooks/provision.yml
+
+# set the correct fqdn in provision.yml
+sed -E -i 's/^(\s+)fqdn:.*/\1fqdn: "YOUR_FQDN_HERE"/m' ansible-playbooks/provision.yml
+
+# set the correct keyfile
+sed -E -i 's/^(\s+)keyfile:.*/\1keyfile: "YOUR_KEYFILE_HERE"/m' ansible-playbooks/provision.yml
+
+# set the correct certfile
+sed -E -i 's/^(\s+)certfile:.*/\1certfile: "YOUR_CERTFILE_HERE"/m' ansible-playbooks/provision.yml
+```
+
+Afterwards, look over the provision.yml file to make sure everything worked correctly.
+```bash
+view ansible-playbooks/provision.yml
+```
+
+If everything appears to be correct, proceed to deploy OSCMT.
+
+### Execution
 ```bash
 export SECRET_KEY=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
 
 export DB_PASSWORD=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
 
-export FQDN="whatever your fqdn looks like"
+export FQDN="YOUR_FQDN_HERE"
 
 ansible-playbook provision.yml --ask-become-pass --extra-vars 'secret_key="${SECRET_KEY}" dbpassword="${DB_PASSWORD}" fqdn="${FQDN}"'
 ```
@@ -57,6 +94,17 @@ idea to save the password.
 ```bash
 echo $DB_PASSWORD > db-pwd.txt
 ```
+
+Backup that file to a safe place where it can't be accessed by unauthorised users.
+
+Since we don't want to share secret keys and db passwords with anybody else, we now get rid of the environment variables.
+
+```bash
+unset DB_PASSWORD
+unset SECRET_KEY
+```
+
+## Configuration
 
 After the playbook has run, you need to connect to the remote host and create a superuser for django.
 
