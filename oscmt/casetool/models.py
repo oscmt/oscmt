@@ -129,9 +129,9 @@ class Case(models.Model):
         from datetime import date
 
         year = date.today().year
-        max_number = Case.objects.filter(created_at__year = year).aggregate(Max('consecutive_number'))
-        if max_number['consecutive_number__max']:
-            return max_number['consecutive_number__max'] + 1
+        last_case_number = Case.objects.filter(created_at__year = year).aggregate(Max('consecutive_number'))
+        if last_case_number['consecutive_number__max']:
+            return last_case_number['consecutive_number__max'] + 1
         return 1
 
     external_id = models.CharField(max_length = 32, unique = True)
