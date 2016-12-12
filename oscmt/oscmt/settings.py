@@ -1,1 +1,1 @@
-testsettings.py
+deploymentsettings.py
