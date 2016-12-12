@@ -11,7 +11,7 @@
 
 - name: Clone nginx configs
   git:
-    repo: https://github.com/dmaendlen/oscmt-nginx.git
+    repo: https://github.com/oscmt/oscmt-nginx.git
     dest: /etc/nginx
     version: master
     force: yes
