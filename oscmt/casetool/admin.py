@@ -57,6 +57,25 @@ class CaseAdmin(admin.ModelAdmin):
         'contract',
     ]
 
+@admin.register(Evidence, site = admin_site)
+class EvidenceAdmin(admin.ModelAdmin):
+    inlines = [
+        CoCInline,
+        SubEvidenceInline,
+    ]
+
+    search_fields = [
+        'serial_number',
+        'storage_location',
+    ]
+
+    list_filter = [
+        'case',
+        'isActive',
+        'evidence_type',
+        'storage_location',
+    ]
+
 @admin.register(Client, site = admin_site)
 class ClientAdmin(admin.ModelAdmin):
     inlines = [
@@ -103,25 +122,6 @@ class ContractAdmin(admin.ModelAdmin):
 @admin.register(Documentation, site = admin_site)
 class DocumentationAdmin(admin.ModelAdmin):
     pass
-
-@admin.register(Evidence, site = admin_site)
-class EvidenceAdmin(admin.ModelAdmin):
-    inlines = [
-        CoCInline,
-        SubEvidenceInline,
-    ]
-
-    search_fields = [
-        'serial_number',
-        'storage_location',
-    ]
-
-    list_filter = [
-        'case',
-        'isActive',
-        'evidence_type',
-        'storage_location',
-    ]
 
 @admin.register(SubEvidence, site = admin_site)
 class SubEvidenceAdmin(admin.ModelAdmin):
