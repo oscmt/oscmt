@@ -51,12 +51,12 @@
     owner: "{{ username }}"
     group: "{{ groupname }}"
 
-- name: Set up a virtual environment with pip
-  become: yes
-  pip:
-    requirements: "{{ userpath }}/oscmt/requirements.txt"
-    virtualenv: "{{ venv }}"
-    virtualenv_python: python3.4 # only in ansible 2.0++
+#- name: Set up a virtual environment with pip
+#  become: yes
+#  pip:
+#    requirements: "{{ userpath }}/oscmt/requirements.txt"
+#    virtualenv: "{{ venv }}"
+#    virtualenv_python: /usr/bin/python3.4 # only in ansible 2.0++
 
 - name: Migrate Django's database
   django_manage:
