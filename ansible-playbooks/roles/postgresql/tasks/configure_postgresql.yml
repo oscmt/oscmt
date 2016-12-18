@@ -1,6 +1,7 @@
 - name: Ensure that database is created
   postgresql_db: 
     name: "{{ dbname }}"
+    encoding: UTF-8
   become: yes
   become_user: postgres
 
