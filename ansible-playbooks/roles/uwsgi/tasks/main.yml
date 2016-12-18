@@ -25,5 +25,5 @@
 - name: Reload nginx
   service:
     name: uwsgi
-    state: reloaded
+    state: restarted
     enabled: yes
