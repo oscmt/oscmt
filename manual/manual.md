@@ -30,5 +30,5 @@ to the respective fields.
 ![Case creation view](figures/newcase.png)
 
 ### How to create a new evidence item
-### How to create a new chain of custody event
+To create a new evidence item, navigate to the main overview and click "Add" next to "Evidence Items"
 ### How to ...
