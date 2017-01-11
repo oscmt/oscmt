@@ -10,14 +10,11 @@ forensics cases. After we looked at current software solutions we decided to
 create a software solution with the Django framework in Python 3.4. This
 repository is the result.
 
-## Content
-This repository contains the clean version of the software, ready to use.
-
 ## Installation
 ### Dependencies
 If you want to use the ansible-playbook I provided, you need:
 
-* ansible >= 2.0.0
+* ansible >= 2.2.1
 * a Debian-based OS on the host where you want to install the software (preferably Debian Jessie or later)
 * a ssh-login on said host that has sudo-permissions
 * Python2.7 on said host
@@ -44,26 +41,34 @@ Using the ansible-playbook:
 # become root
 sudo -s
 
+# set appropriate value for FQDN (an IP address works too)
+FQDN="YOUR_IP_OR_FQDN_HERE"
 # append relevant information
 cat << EOF >> /etc/ansible/hosts
 [oscmt]
-YOUR_IP_OR_FQDN_HERE ansible_ssh_private_key_file='/path/to/your/ssh/keyfile'
+${FQDN} ansible_ssh_private_key_file='/path/to/your/ssh/keyfile'
 EOF
 
 # exit root
 exit
 
+# set appropriate values for FQDN, REMOTEUSER, KEYFILE and CERTFILE
+FQDN="your fqdn here"
+REMOTEUSER="youre remote user here"
+KEYFILE="/path/to/your/keyfile" # may be relative, better absolute
+CERTFILE="/path/to/your/certfile" # may be relative, better absolute
+
 # set the correct remote user in provision.yml
-sed -E -i 's/^(\s+)remoteuser:.*/\1remoteuser: YOUR_REMOTE_USER_HERE/' ansible-playbooks/provision.yml
+sed -E -i "s/^(\s+)remoteuser:.*/\1remoteuser: ${REMOTEUSER}/" ansible-playbooks/provision.yml
 
 # set the correct fqdn in provision.yml
-sed -E -i 's/^(\s+)fqdn:.*/\1fqdn: "YOUR_FQDN_HERE"/m' ansible-playbooks/provision.yml
+sed -E -i "s/^(\s+)fqdn:.*/\1fqdn: ${FQDN}/m" ansible-playbooks/provision.yml
 
 # set the correct keyfile
-sed -E -i 's/^(\s+)keyfile:.*/\1keyfile: "YOUR_KEYFILE_HERE"/m' ansible-playbooks/provision.yml
+sed -E -i "s/^(\s+)keyfile:.*/\1keyfile: ${KEYFILE}/m" ansible-playbooks/provision.yml
 
 # set the correct certfile
-sed -E -i 's/^(\s+)certfile:.*/\1certfile: "YOUR_CERTFILE_HERE"/m' ansible-playbooks/provision.yml
+sed -E -i "s/^(\s+)certfile:.*/\1certfile: ${CERTFILE}/m" ansible-playbooks/provision.yml
 ```
 
 Afterwards, look over the provision.yml file to make sure everything worked correctly.
@@ -75,11 +80,9 @@ If everything appears to be correct, proceed to deploy OSCMT.
 
 ### Execution
 ```bash
-export SECRET_KEY=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
+SECRET_KEY=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
 
-export DB_PASSWORD=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
-
-export FQDN="YOUR_FQDN_HERE"
+DB_PASSWORD=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
 
 ansible-playbook provision.yml --ask-become-pass --extra-vars 'secret_key="${SECRET_KEY}" dbpassword="${DB_PASSWORD}" fqdn="${FQDN}"'
 ```
@@ -109,7 +112,7 @@ unset SECRET_KEY
 After the playbook has run, you need to connect to the remote host and create a superuser for django.
 
 ```bash
-ssh remoteuser@fqdn
+ssh ${REMOTEUSER}@${FQDN}
 
 sudo -s
 
@@ -119,17 +122,13 @@ python /var/www/oscmt/oscmt/manage.py createsuperuser
 ```
 
 Tell the manage.py script everything it needs to know, afterwards you should be
-able to navigate to fqdn.tld and log in.
+able to navigate to ${FQDN} and log in.
 
 After logging in as the superuser (henceforth "admin"), you can use OSCMT as a
 single user. Since this is normally a bad idea, you probably want to create
 groups and users next.
 
-Navigate to the /admin/ page next, here you can create groups and users to your
-liking, as well as managing permissions for said groups and users.
-
-When you're done with the admin account, log out and log back in as a regular
-user and start documenting your cases.
+More detail can be found in [the manual](manual/manual.md)
 
 ## Call for Participation
 If you have an improvement for the software please throw me a pull request.
