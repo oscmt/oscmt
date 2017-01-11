@@ -187,6 +187,11 @@ class Evidence(models.Model):
     """
     Stores information about pieces of evidence, e. g. a harddisk.
     """
+
+    class Meta:
+        verbose_name = "Evidence Item"
+        verbose_name_plural = "Evidence Items"
+
     PHYSICAL = 'PHY'
     LOGICAL = 'LOG'
     OTHER = 'OTH'
@@ -234,6 +239,11 @@ class SubEvidence(models.Model):
     """
     If a :model:`casetool.Evidence` is copied, e. g. for a working copy, a SubEvidence can be created.
     """
+
+    class Meta:
+        verbose_name = "SubEvidence Item"
+        verbose_name_plural = "SubEvidence Items"
+
     WORKING_COPY = 'WOR'
     BEST_EVIDENCE = 'BES'
 
