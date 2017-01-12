@@ -54,12 +54,12 @@ exit
 
 # set appropriate values for FQDN, REMOTEUSER, KEYFILE and CERTFILE
 FQDN="your fqdn here"
-REMOTEUSER="youre remote user here"
-KEYFILE="/path/to/your/keyfile" # may be relative, better absolute
-CERTFILE="/path/to/your/certfile" # may be relative, better absolute
+REMOTEUSER="your remote user here"
+KEYFILE="name.of.your.keyfile.key"
+CERTFILE="name.of.your.certfile.crt"
 
 # set the correct remote user in provision.yml
-sed -E -i "s/^(\s+)remoteuser:.*/\1remoteuser: ${REMOTEUSER}/" ansible-playbooks/provision.yml
+sed -E -i "s/^(\s+)remoteuser:.*/\1remoteuser: ${REMOTEUSER}/m" ansible-playbooks/provision.yml
 
 # set the correct fqdn in provision.yml
 sed -E -i "s/^(\s+)fqdn:.*/\1fqdn: ${FQDN}/m" ansible-playbooks/provision.yml
@@ -83,6 +83,10 @@ If everything appears to be correct, proceed to deploy OSCMT.
 SECRET_KEY=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}".format(string.ascii_letters, string.digits)) for i in range(50)]))')
 
 DB_PASSWORD=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}".format(string.ascii_letters, string.digits)) for i in range(50)]))')
+
+# If you want to set those variables on your own please make sure they don't contain single or double quotes, otherwise the next line *WILL* fail and you *WILL* be sad.
+# If shell expansion doesn't work properly your config files will contain errors and you will spend the better part of two work days to figure out where that 400 Bad Request from
+# nginx suddenly came from. (It came from uwsgi which in turn threw errors due to django misbehaving which misbehaved due to wrong config files.) You have been warned.
 
 ansible-playbook provision.yml --ask-become-pass --extra-vars "secret_key=${SECRET_KEY} dbpassword=${DB_PASSWORD} fqdn=${FQDN}"
 ```
