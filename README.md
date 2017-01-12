@@ -80,11 +80,11 @@ If everything appears to be correct, proceed to deploy OSCMT.
 
 ### Execution
 ```bash
-SECRET_KEY=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
+SECRET_KEY=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}".format(string.ascii_letters, string.digits)) for i in range(50)]))')
 
-DB_PASSWORD=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))')
+DB_PASSWORD=$(python -c 'import random; import string; print("".join([random.SystemRandom().choice("{}{}".format(string.ascii_letters, string.digits)) for i in range(50)]))')
 
-ansible-playbook provision.yml --ask-become-pass --extra-vars 'secret_key="${SECRET_KEY}" dbpassword="${DB_PASSWORD}" fqdn="${FQDN}"'
+ansible-playbook provision.yml --ask-become-pass --extra-vars "secret_key=${SECRET_KEY} dbpassword=${DB_PASSWORD} fqdn=${FQDN}"
 ```
 
 This will ask you for the sudo-password of your user on the host. After that, it
