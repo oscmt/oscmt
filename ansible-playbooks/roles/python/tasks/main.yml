@@ -1,6 +1,6 @@
-- name: Ensure Python 3.4 is installed and the latest version
+- name: Ensure Python 3.5 is installed and the latest version
   apt:
-    pkg: python3.4
+    pkg: python3.5
     state: latest
 
 - name: Ensure python3-pip is installed and the latest version
